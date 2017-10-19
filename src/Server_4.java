@@ -34,12 +34,12 @@ class FileReceiver implements Layer {
 	  Pattern pattern = Pattern.compile(reg_exp);
 	  Matcher matcher = pattern.matcher(payload);
 	  if (matcher.find()) {
-		try {
+		  try {
 			received_fw = new FileWriter("_received_"+matcher.group(2));
-			return;
-		} catch (IOException e) {
+		  } catch (IOException e) {
 			e.printStackTrace();
-		}
+		  }
+		  return;
 	  }
 	  if(payload.equals("**CLOSE**")) {
 		  file_received=true;
@@ -67,7 +67,7 @@ class FileReceiver implements Layer {
   public void close() {
 	  while (!file_received) {
 		try {
-			Thread.sleep(5);
+			Thread.sleep(3);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
