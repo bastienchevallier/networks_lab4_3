@@ -35,18 +35,10 @@ public class ConnectedLayer implements Layer {
 		TimerTask SendingTask = new TimerTask(){			
 			@Override
 			public void run(){
-				synchronized(this) {
-					try {
-						GroundLayer.send(wrapped_payload, destinationHost, destinationPort);
-						wait();
-						return;
-					} catch (InterruptedException e) {
-						//System.err.println("Exception in TimerTask wait :" + e.getMessage());
-					}
-				}
+				GroundLayer.send(wrapped_payload, destinationHost, destinationPort);
+
 			}
 		};
-		GroundLayer.send(wrapped_payload, destinationHost, destinationPort);
 		TIMER.schedule(SendingTask,0,10);
 		SendingTask.cancel();
 		pckt_number++;
