@@ -66,11 +66,11 @@ class FileReceiver implements Layer {
   @Override
   public void close() {
 	  while (!file_received) {
-		try {
-			Thread.sleep(5);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		  try{
+			  Thread.sleep(3);
+		  }catch(InterruptedException e){
+			  System.err.println(e.getMessage());
+		  }
 	  }
 	  System.out.println("closing");
 	  subLayer.close();
