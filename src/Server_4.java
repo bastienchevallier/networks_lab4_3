@@ -8,7 +8,7 @@ import java.io.IOException;
 class FileReceiver implements Layer {
 
   private final Layer subLayer;
-  private FileWriter received_fw;
+  private PrintWriter pw;
   private boolean file_received = false;
 
   public FileReceiver(String destinationHost, int destinationPort,
@@ -35,26 +35,30 @@ class FileReceiver implements Layer {
 	  Matcher matcher = pattern.matcher(payload);
 	  if (matcher.find()) {
 		  try {
-			received_fw = new FileWriter("_received_"+matcher.group(2));
+			pw = new PrintWriter("_received_"+matcher.group(2));
 		  } catch (IOException e) {
 			e.printStackTrace();
 		  }
 		  return;
 	  }
 	  if(payload.equals("**CLOSE**")) {
+
+		  pw.close();
+
 		  file_received=true;
 		  return;
 	  }
-	  try {
-		  PrintWriter pw = new PrintWriter(received_fw);
-		  pw.println(payload);
-	  
-		  received_fw.close();
-	  }catch(NullPointerException e ) {
-		  System.err.println("Received file wasn't initialized"+e.getMessage());
-	  }catch(IOException e) {
-		  System.err.println(e.getMessage());
+	  else{
+		  try {
+	
+			  pw.println(payload);
+		  
+	
+		  }catch(NullPointerException e ) {
+			  System.err.println("Received file wasn't initialized"+e.getMessage());
+		  }
 	  }
+
 	  
   }
 
